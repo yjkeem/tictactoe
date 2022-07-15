@@ -57,20 +57,12 @@ const { body } = document;
     }
     return hasWinner;
     };
-    
 
-    const callback = (event) => {
-        if (event.target.textContent !== '') { // 칸이 이미 채워져 있는가?
-            console.log('빈칸이 아닙니다.');
-            return; // if문 중첩되는 것보다 빠르게 return하는 것이 좋음
-        }
-        // 빈칸이면
-        console.log('빈칸입니다.');
-        event.target.textContent = turn; 
 
-        // 승부 판단하기
-        const hasWinner = checkWinner(event.target);
-        if (hasWinner) {  // callback 함수안에 또 checkWinner함수 추가하면 너무 길어지므로 따로 빼기
+    const checkWinnerAndDraw = (target) => {
+        const hasWinner = checkWinner(target);
+        /// 승자가 있으면
+        if (hasWinner) {  
             $result.textContent = `${turn}님의 승리!`;
             $table.removeEventListener('click', callback);
             return;
@@ -96,6 +88,26 @@ const { body } = document;
             turn = 'X';
         } else if (turn === 'X') {
             turn = 'O';
+        }
+    };
+    
+
+    const callback = (event) => {
+        if (event.target.textContent !== '') { // 칸이 이미 채워져 있는가?
+            console.log('빈칸이 아닙니다.');
+            return; // if문 중첩되는 것보다 빠르게 return하는 것이 좋음
+        }
+        // 빈칸이면
+        console.log('빈칸입니다.');
+        event.target.textContent = turn; 
+        // 승부 판단하기
+        checkWinnerAndDraw(event.target);    
+        if (turn === 'X') {
+            const emptyCells = rows.flat().filter((v) => !v.textContent); // v.textConent가 '빈칸이 아니면' 이기 때문에 !를 붙여서 '빈칸이면'으로 만들어준다.
+            const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            randomCell.textContent = 'X';
+            checkWinnerAndDraw(event.target);  
+            
         }
     };
 
