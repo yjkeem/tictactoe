@@ -91,8 +91,9 @@ const { body } = document;
         }
     };
     
-
+    let clickable = true; // 기본적으로 '내'가 클릭할 때는 클릭 가능
     const callback = (event) => {
+        if (!clickable) return;
         if (event.target.textContent !== '') { // 칸이 이미 채워져 있는가?
             console.log('빈칸이 아닙니다.');
             return; // if문 중첩되는 것보다 빠르게 return하는 것이 좋음
@@ -103,11 +104,14 @@ const { body } = document;
         // 승부 판단하기
         checkWinnerAndDraw(event.target);    
         if (turn === 'X') {
-            const emptyCells = rows.flat().filter((v) => !v.textContent); // v.textConent가 '빈칸이 아니면' 이기 때문에 !를 붙여서 '빈칸이면'으로 만들어준다.
-            const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            randomCell.textContent = 'X';
-            checkWinnerAndDraw(event.target);  
-            
+            clickable = false; // 컴퓨터가 클릭할 때는 클릭 불가
+            setTimeout(() => {
+                const emptyCells = rows.flat().filter((v) => !v.textContent); // v.textConent가 '빈칸이 아니면' 이기 때문에 !를 붙여서 '빈칸이면'으로 만들어준다.
+                const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                randomCell.textContent = 'X';
+                checkWinnerAndDraw(event.target);  
+                clickable = true; // 컴퓨터의 턴이 끝나면 다시 누를 수 있게 만들어줌
+            }, 1000);
         }
     };
 
