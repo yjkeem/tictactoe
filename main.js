@@ -107,6 +107,16 @@ const { body } = document;
             clickable = false; // 컴퓨터가 클릭할 때는 클릭 불가
             setTimeout(() => {
                 const emptyCells = rows.flat().filter((v) => !v.textContent); // v.textConent가 '빈칸이 아니면' 이기 때문에 !를 붙여서 '빈칸이면'으로 만들어준다.
+
+                /*( const emptyCells = [];
+                for(let i = 0; i < rows.flat().length; i++) {
+                    const value = rows.flat()[i];
+                    if (value.textContent == '') {
+                        emptyCells.push(value);
+                    }
+                } */ // filter 함수 안쓰고 그냥 for문으로 작성할 수 있음
+
+
                 const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
                 randomCell.textContent = 'X';
                 checkWinnerAndDraw(event.target);  
