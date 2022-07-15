@@ -93,7 +93,22 @@ const { body } = document;
         } 
 
         if (turn === 'O') {  // 삼항연산자로도 바꿀 수 있음 turn = (turn === 'O' ? 'X' : 'O');
-            turn = 'X';
+            let id = setTimeout(() => {
+                r = Math.floor(Math.random() * 3);
+                s = Math.floor(Math.random() * 3);
+                console.log(r);
+                console.log(s);
+                // rows[r][r].textContent == 'X'; // 이미 차 있는 자리에는 들어갈 수 없음을 어케해야 할까,,,,,,,어???????????
+                if (rows[r][s].textContent == '' ) {
+                    rows[r][s].textContent = 'X';
+                } else if (rows[r][s].textContent !== '' ) {
+                    r = Math.floor(Math.random() * 3);
+                    s = Math.floor(Math.random() * 3);
+                    rows[r][s].textContent = 'X';
+                    console.log(r);
+                    console.log(s);
+                }
+            }, 1000); 
         } else if (turn === 'X') {
             turn = 'O';
         }
